@@ -109,6 +109,7 @@ _triggers = frozenset(['pre_insert', 'pre_update', 'pre_delete'])
 def _gen_sql(table_name, mappings):
     pk = None
     sql = ['-- generating SQL for %s:' % table_name,
+           'drop table if exists `%s`;' % table_name,
            'create table `%s` (' % table_name]
 
     for f in sorted(mappings.values(), key=lambda x: x._order):
@@ -120,7 +121,7 @@ def _gen_sql(table_name, mappings):
             pk = f.name
         sql.append('  `%s` %s%s,' % (f.name, ddl, '' if nullable else ' not null'))
     sql.append('  primary key(`%s`)' % pk)
-    sql.append(');')
+    sql.append(');\n\n')
     return '\n'.join(sql)
 
 class ModelMetaclass(type):
@@ -219,6 +220,7 @@ class Model(dict):
     >>> import json
     >>> print User().__sql__()
     -- generating SQL for user:
+    drop table if exists `user`;
     create table `user` (
       `id` bigint not null,
       `name` varchar(255) not null,
@@ -227,6 +229,8 @@ class Model(dict):
       `last_modified` real not null,
       primary key(`id`)
     );
+    <BLANKLINE>
+    <BLANKLINE>
     '''
     __metaclass__ = ModelMetaclass
 
