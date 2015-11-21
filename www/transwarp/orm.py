@@ -177,7 +177,7 @@ class ModelMetaclass(type):
 
         attrs['__mappings__'] = mappings
         attrs['__primary_key__'] = primary_key
-        attrs['__sql__'] = lambda self: _gen_sql(attrs['__table__'], mappings)
+        attrs['__sql__'] = classmethod(lambda cls: _gen_sql(attrs['__table__'], mappings))
 
         for trigger in _triggers:
             if not trigger in attrs:
@@ -218,7 +218,7 @@ class Model(dict):
     >>> len(db.select('select * from user where id=10190'))
     0
     >>> import json
-    >>> print User().__sql__()
+    >>> print User.__sql__()
     -- generating SQL for user:
     drop table if exists `user`;
     create table `user` (
@@ -340,7 +340,7 @@ class Model(dict):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
-    db.create_engine(user='test_admin', password='123', database='test')
+    db.create_engine(user='www-data', password='www-data', database='test')
     db.update('drop table if exists user')
     db.update( '''create table `user` (
                     `id` bigint not null,

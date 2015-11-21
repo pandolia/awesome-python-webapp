@@ -1,18 +1,6 @@
-drop database if exists test;
-
-create database test;
-
-use test;
-
-grant select, insert, update, delete on test.* to 'test_admin'@'localhost'
-identified by '123';
-
-grant all on test.* to 'test_root'@'localhost'
-identified by '123';
-
--- generating SQL for users:
-drop table if exists `users`;
-create table `users` (
+-- generating SQL for user:
+drop table if exists `user`;
+create table `user` (
   `id` varchar(50) not null,
   `email` varchar(50) not null,
   `password` varchar(50) not null,
@@ -21,11 +9,11 @@ create table `users` (
   `image` varchar(500) not null,
   `created_at` real not null,
   primary key(`id`)
-) engine=inodb default charset=utf8;
+);
 
--- generating SQL for blogs:
-drop table if exists `blogs`;
-create table `blogs` (
+-- generating SQL for blog:
+drop table if exists `blog`;
+create table `blog` (
   `id` varchar(50) not null,
   `user_id` varchar(50) not null,
   `user_name` varchar(50) not null,
@@ -35,11 +23,11 @@ create table `blogs` (
   `content` text not null,
   `created_at` real not null,
   primary key(`id`)
-) engine=inodb default charset=utf8;
+);
 
--- generating SQL for comments:
-drop table if exists `comments`;
-create table `comments` (
+-- generating SQL for comment:
+drop table if exists `comment`;
+create table `comment` (
   `id` varchar(50) not null,
   `blog_id` varchar(50) not null,
   `user_id` varchar(50) not null,
@@ -48,5 +36,5 @@ create table `comments` (
   `content` text not null,
   `created_at` real not null,
   primary key(`id`)
-) engine=inodb default charset=utf8;
+);
 
