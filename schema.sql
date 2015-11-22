@@ -1,5 +1,12 @@
--- generating SQL for user:
-drop table if exists `user`;
+drop database if exists awesome;
+
+create database awesome;
+
+use awesome;
+
+grant select,insert,update,delete on awesome.*
+  to 'www-data'@'localhost' identified by 'www-data';
+
 create table `user` (
   `id` varchar(50) not null,
   `email` varchar(50) not null,
@@ -8,11 +15,11 @@ create table `user` (
   `name` varchar(50) not null,
   `image` varchar(500) not null,
   `created_at` real not null,
+  unique key `idx_email` (`email`),
+  key `idx_created_at` (`create`),
   primary key(`id`)
-);
+) engine=innodb default charset=utf8;
 
--- generating SQL for blog:
-drop table if exists `blog`;
 create table `blog` (
   `id` varchar(50) not null,
   `user_id` varchar(50) not null,
@@ -22,11 +29,10 @@ create table `blog` (
   `summary` varchar(200) not null,
   `content` text not null,
   `created_at` real not null,
+  key `idx_created_at` (`created_at`),
   primary key(`id`)
-);
+) engine=innodb default charset=utf8;
 
--- generating SQL for comment:
-drop table if exists `comment`;
 create table `comment` (
   `id` varchar(50) not null,
   `blog_id` varchar(50) not null,
@@ -35,6 +41,14 @@ create table `comment` (
   `user_image` varchar(500) not null,
   `content` text not null,
   `created_at` real not null,
+  key `idx_created_at` (`created_at`),
   primary key(`id`)
-);
+) engine=innodb default charset=utf8;
 
+-- email / password;
+-- admin@example.com / password
+
+insert into users (`id`, `email`, `password`, `admin`, `name`, `created_at`) values
+ ('0010018336417540987fff4508f43fbaed718e263442526000',
+  'admin@example.com', '5f4dcc3b5aa765d61d8327deb882cf99',
+  1, 'Administrator', 1402909113.628);
