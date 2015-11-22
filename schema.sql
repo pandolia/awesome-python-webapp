@@ -52,3 +52,14 @@ insert into user (`id`, `email`, `password`, `admin`, `name`, `created_at`) valu
  ('0010018336417540987fff4508f43fbaed718e263442526000',
   'admin@example.com', '5f4dcc3b5aa765d61d8327deb882cf99',
   1, 'Administrator', 1402909113.628);
+
+insert into blog (`id`, `user_id`, `user_name`, `user_image`, `name`, `summary`,
+                   `content`, `created_at`) values
+ ('0010018336417540987fff4508f43fbaed718e263442526222',
+  '0010018336417540987fff4508f43fbaed718e263442526000',
+  'Administrator',
+  '5f4dcc3b5aa765d61d8327deb882cf99',
+  'Hello World!',
+  'Hello World!',
+  'Let\' go',
+  1402909113.628);
