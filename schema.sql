@@ -16,7 +16,7 @@ create table `user` (
   `image` varchar(500) not null,
   `created_at` real not null,
   unique key `idx_email` (`email`),
-  key `idx_created_at` (`create`),
+  key `idx_created_at` (`created_at`),
   primary key(`id`)
 ) engine=innodb default charset=utf8;
 
@@ -48,7 +48,7 @@ create table `comment` (
 -- email / password;
 -- admin@example.com / password
 
-insert into users (`id`, `email`, `password`, `admin`, `name`, `created_at`) values
+insert into user (`id`, `email`, `password`, `admin`, `name`, `created_at`) values
  ('0010018336417540987fff4508f43fbaed718e263442526000',
   'admin@example.com', '5f4dcc3b5aa765d61d8327deb882cf99',
   1, 'Administrator', 1402909113.628);
