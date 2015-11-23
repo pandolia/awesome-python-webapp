@@ -1376,8 +1376,8 @@ class WSGIApplication(object):
             if callable(fn):
                 if hasattr(fn, '__web_route__') and hasattr(fn, '__web_method__'):
                     self.add_url(fn)
-                elif hasattr(fn, '__interceptor__'):
-                    self.add_interceptor(fn)
+                # elif hasattr(fn, '__interceptor__'):
+                #     self.add_interceptor(fn)
 
     def add_url(self, func):
         self._check_not_running()
@@ -1433,7 +1433,7 @@ class WSGIApplication(object):
                     args = fn.match(path_info)
                     if args:
                         return fn(*args)
-                raise notfound
+                raise notfound()
             raise badrequest
 
         fn_exec = _build_interceptor_chain(fn_route, *self._interceptors)

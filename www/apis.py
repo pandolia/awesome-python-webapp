@@ -20,6 +20,7 @@ class APIError(StandardError):
     """
     def __init__(self, error, data='', message=''):
         super(APIError, self).__init__(message)
+        self.error = error
         self.data = data
         self.message = message
 
@@ -60,7 +61,7 @@ def api(func):
         except APIError, e:
             r = json.dumps(dict(error=e.error, data=e.data, message=e.message))
         except Exception, e:
-            logging.excetion(e)
+            logging.exception(e)
             r = json.dumps(dict(error='internalerror', data=e.__class__.__name__, message=e.message))
         ctx.response.content_type = 'application/json'
         return r

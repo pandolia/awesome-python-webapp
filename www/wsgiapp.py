@@ -44,6 +44,8 @@ db.create_engine(**configs.db)
 # init wsgi app:
 wsgi = WSGIApplication(www_dir)
 wsgi.template_engine = tmpl_engine
+wsgi.add_interceptor(urls.user_interceptor)
+wsgi.add_interceptor(urls.manage_interceptor)
 wsgi.add_module(urls)
 
 if __name__ == '__main__':
