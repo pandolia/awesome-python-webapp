@@ -35,11 +35,11 @@ def parse_signed_cookie(cookie_str):
     except:
         return None
 
-# def chekc_admin():
-#     user = ctx.request.user
-#     if user and user.admin:
-#         return
-#     raise APIPermissionError('No permission.')
+def chekc_admin():
+    user = ctx.request.user
+    if user and user.admin:
+        return
+    raise APIPermissionError('No permission.')
 
 @interceptor('/')
 def user_interceptor(next):
@@ -135,6 +135,32 @@ def regiser_user():
 def register():
     return dict()
 
+@view('manage_blog_edit.html')
+@get('/manage/blogs/create')
+def manage_blogs_create():
+    return dict(id=None, action='/api/blogs',
+                redirect='/', user=ctx.request.user)
+
+@api
+@post('/api/blogs')
+def api_create_blog():
+    chekc_admin()
+    i = ctx.request.input(name='', summary='', content='')
+    name = i.name.strip()
+    summary = i.summary.strip()
+    content = i.content.strip()
+    if not name:
+        raise APIValueError('name', 'name cannot be empty.')
+    if not summary:
+        raise APIValueError('summary', 'summary cannot be empty.')
+    if not content:
+        raise APIValueError('content', 'content cannot be empty.')
+    user = ctx.request.user
+    blog = Blog(user_id=user.id, user_name=user.name, name=name,
+                summary=summary, content=content)
+    blog.insert()
+    return blog
+
 @api
 @get('/api/users')
 def api_get_users():
@@ -142,9 +168,3 @@ def api_get_users():
     for u in users:
         u.password = '******'
     return dict(user=users)
-
-@view('test_users.html')
-@get('/allusers')
-def test_users():
-    users = User.find_by('order by created_at desc')
-    return dict(users=users)
